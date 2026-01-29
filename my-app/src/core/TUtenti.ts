@@ -7,8 +7,6 @@ export interface IUtente {
     password: string;
 }
 
-
-// Mock data for users
 export const utenti: TUtenti = [
     {
         id: 1,

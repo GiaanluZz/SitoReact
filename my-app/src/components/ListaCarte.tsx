@@ -19,4 +19,3 @@ export interface ApiResponse {
   data: Card[];
 }
 
-//sinceramente anche questo non so a cosa serva

@@ -16,7 +16,7 @@ export interface ICard {
     image_url: string;
     desc: string;
 
-    // Array of card images (from API)
+    
     card_images: {
         id: number;
         image_url: string;
@@ -24,7 +24,7 @@ export interface ICard {
         image_url_cropped: string;
     }[];
 
-    // Array of card prices (from API)
+    
     card_prices: {
         cardmarket_price: string;
         tcgplayer_price: string;

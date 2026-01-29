@@ -24,7 +24,6 @@ export default function FormRegistrazione(){
                 <div className="auth-side">
                     <h2>Benvenuto nell'App Carte Yu-Gi-Oh</h2>
                     <p>Gestisci le tue carte, visualizza profili e molto altro!</p>
-                    <img src="/vite.svg" alt="Yu-Gi-Oh Logo" className="auth-image" />
                 </div>
                 <form onSubmit={handleSubmit} className="auth-form">
                     <h2 className="auth-title">Modulo di Registrazione</h2>
@@ -66,6 +65,3 @@ export default function FormRegistrazione(){
         </div>
     );
 }
-
-
-

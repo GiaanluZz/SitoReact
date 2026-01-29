@@ -37,7 +37,7 @@ export default function CardList() {
 
                 <div className="cards-search-wrapper">
                     {/* Search bar for filtering cards */}
-                        <BarraDiRicerca onSearch={(text) => setSearchTerm(text)} />
+                    <BarraDiRicerca onSearch={(text) => setSearchTerm(text)} />
                 </div>
             </div>
 

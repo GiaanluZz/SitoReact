@@ -16,7 +16,3 @@ export default function Error() {
         </div>
     );
 }
-
-//Salvo modifiche assurde che non farò
-//Questa pagina dovrebbe essere apposto
-//Spoiler ho fatto delle modifiche, ma non assurde
