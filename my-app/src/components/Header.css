@@ -1,0 +1,20 @@
+/* Header normale, non fisso */
+.header {
+  background: transparent; /* Cambia qui per un colore diverso, es: #1976d2 per blu */
+  box-shadow: none;
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+}
+.logo-container {
+  margin-left: 20px;
+  margin-top: 18px;
+}
+.logo-img {
+  width: 110px;
+  height: auto;
+  aspect-ratio: 1/1.1;
+  object-fit: contain;
+}
+
+

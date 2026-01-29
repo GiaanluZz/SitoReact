@@ -1,90 +1,66 @@
-import { useEffect, useState } from "react";
-import type { IPost, TPosts } from "../core/Carte"; // Assicurati che l'estensione .ts non serva nell'import
+import { useState } from "react";
+import type { ICard, TCard } from "../core/Carte";
 import { Link } from "react-router-dom";
-import SearchBar from "./BarraDiRicerca"; // <--- 1. IMPORTA IL COMPONENTE (Assicurati che il percorso sia giusto)
+import BarraDiRicerca from "./BarraDiRicerca";
+import { useQuery } from "@tanstack/react-query";
 
-export default function PostList() {
-    // DATI (Tutti i dati scaricati)
-    const [posts, setPosts] = useState<TPosts>([]);
-    // RICERCA (Quello che scrive l'utente)
-    const [searchTerm, setSearchTerm] = useState(""); // <--- 2. NUOVO STATO
+// List of all cards page
+export default function CardList() {
+    // State for search input
+    const [searchTerm, setSearchTerm] = useState("");
 
-    // ERRORI
-    const [error, setError] = useState<string | undefined>();
-    // LOADING
-    const [loading, setLoading] = useState(false);
-
-    async function getPosts() {
-        setLoading(true);
-        setError(undefined);
-        try {
+    // Fetch cards from API using React Query
+    const { data, isLoading, error } = useQuery<TCard, Error>({
+        queryKey: ["cards", "2000-2002"],
+        queryFn: async () => {
             const res = await fetch('https://db.ygoprodeck.com/api/v7/cardinfo.php?&startdate=2000-01-01&enddate=2002-08-23&dateregion=tcg');
-
-            if (!res.ok) {
-                throw new Error("Errore nel recupero dei post");
-            }
-
+            if (!res.ok) throw new Error("Error fetching cards");
             const jsonResponse = await res.json();
-            const allCards: TPosts = jsonResponse.data;
-
-            // Filtro hardcoded per prova (come da tuo codice)
-            const temp = allCards.slice(0, 242);
-            setPosts(temp);
-        } catch (err: any) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
+            // Only first 242 cards for demo
+            return jsonResponse.data.slice(0, 242);
         }
-    }
+    });
 
-    useEffect(() => {
-        getPosts();
-    }, []);
-
-    // 3. LOGICA DI FILTRAGGIO (Avviene in tempo reale)
-    // Se searchTerm è vuoto, mostra tutto. Altrimenti filtra.
-    const filteredPosts = posts.filter((post) =>
-        post.name.toLowerCase().includes(searchTerm.toLowerCase())
+    // Filter cards by search term
+    const filteredCards = (data ?? []).filter((carta: { name: string; }) =>
+        carta.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    if (loading) return <h3>Caricamento in corso...</h3>
-    if (error) return <h3>Si è verificato un errore: {error}</h3>
+    if (isLoading) return <h3>Loading...</h3>;
+    if (error) return <h3>Error: {error.message}</h3>;
 
     return (
         <div className="list-container">
             <div className="cards-list-header">
-                <h1>Archivio delle Carte</h1>
-                <p>Collezione ufficiale dal 2000 al 2002</p>
+                <h1>Card Archive</h1>
+                <p>Official collection from 2000 to 2002</p>
 
                 <div className="cards-search-wrapper">
-                    <SearchBar onSearch={(text) => setSearchTerm(text)} />
+                    {/* Search bar for filtering cards */}
+                        <BarraDiRicerca onSearch={(text) => setSearchTerm(text)} />
                 </div>
             </div>
 
-
-            {/*<div id="button-div">
-                <button className="list-reload-button" onClick={getPosts}>Ricarica post</button>
-            </div>*/}
-            {/* Usiamo filteredPosts invece di posts per il controllo lunghezza */}
-            {filteredPosts.length === 0 && !loading && <p>Nessuna carta trovata.</p>}
+            {/* Show message if no cards found */}
+            {filteredCards.length === 0 && !isLoading && <p>No cards found.</p>}
 
             <div className="div-list">
                 <ul>
-                    {/* 5. IMPORTANTISSIMO: Mappa su filteredPosts, non su posts */}
+                    {/* Map over filtered cards and render each as a link */}
                     {
-                        filteredPosts.map((post: IPost) => {
+                        filteredCards.map((card: ICard) => {
                             return (
                                 <Link
-                                    to={`/list/${encodeURIComponent(post.name)}`}
-                                    state={{ daLink: true, card: post }}
-                                    key={post.id}
+                                    to={`/list/${encodeURIComponent(card.name)}`}
+                                    state={{ fromLink: true, card: card }}
+                                    key={card.id}
                                     style={{ textDecoration: 'none', color: 'inherit' }}
                                 >
                                     <div className="card-item">
-                                        <h3>{post.name}</h3>
+                                        <h3>{card.name}</h3>
                                         <img
-                                            src={post.card_images[0].image_url}
-                                            alt={"Idk, It should be a " + post.name + " img"}
+                                            src={card.card_images[0].image_url}
+                                            alt={"Card image: " + card.name}
                                             style={{ width: '150px' }}
                                         />
                                     </div>

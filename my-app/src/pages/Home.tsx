@@ -61,7 +61,7 @@ export default function Home() {
                 <p>&copy; 2024 Yu-Gi-Oh Card Explorer. Tutti i diritti riservati.</p>
                 <p>Seguimi su social media!</p>
                 <div className="home-social-links">
-                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.facebook.com/profile.php?id=61559053678687" target="_blank" rel="noopener noreferrer">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" />
                     </a>
                     <a href="https://x.com/GiaanluZzZ" target="_blank" rel="noopener noreferrer">

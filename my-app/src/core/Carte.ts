@@ -1,7 +1,9 @@
-export type TPosts = IPost[];
+// Type for an array of cards
+export type TCard = ICard[];
 
-export interface IPost {
-    id: number; //dovrei mettere qualcos'altro ma lo farò dopo
+// Interface for a single card object
+export interface ICard {
+    id: number;
     name: string;
     attribute: string;
     type: string;
@@ -14,21 +16,22 @@ export interface IPost {
     image_url: string;
     desc: string;
 
-    card_images:{
+    // Array of card images (from API)
+    card_images: {
         id: number;
         image_url: string;
         image_url_small: string;
         image_url_cropped: string;
-    }[]; //viene dichiarato come array di oggetti
+    }[];
 
-    card_prices:{
+    // Array of card prices (from API)
+    card_prices: {
         cardmarket_price: string;
         tcgplayer_price: string;
         ebay_price: string;
         amazon_price: string;
         coolstuffinc_price: string;
-    }[]; //Sono array per una scelta dei dev dell'API
+    }[];
 
-   typeline?: string[];
-
+    typeline?: string[];
 }
